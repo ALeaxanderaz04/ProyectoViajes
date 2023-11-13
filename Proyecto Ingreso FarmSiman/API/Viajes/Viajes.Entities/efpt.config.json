@@ -1,0 +1,129 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "ViajesContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Entities",
+   "ProjectRootNamespace": "Viajes.Entities",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 2,
+   "Tables": [
+      {
+         "Name": "[acce].[tbPantallas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[acce].[tbPantallasPorRoles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[acce].[tbRoles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[acce].[tbUsuarios]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[gral].[tbDepartamentos]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[gral].[tbEstadosCiviles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[gral].[tbMunicipios]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[viaj].[tbColaboradores]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[viaj].[tbSucursales]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[viaj].[tbTransportistas]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[viaj].[tbViajes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[viaj].[tbViajesDetalles]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[acce].[VW_tbPantallas]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[acce].[VW_tbPantallasPorRoles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[acce].[VW_tbRoles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[acce].[VW_tbUsuarios]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbDepartamentos]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbEstadosCiviles]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[gral].[VW_tbMunicipios]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbColaboradores]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbSucursales]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbTransportistas]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbViajes]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbViajesDetalles]",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": "DESKTOP-D2657FN\\SQLEXPRESS.Viajes",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
