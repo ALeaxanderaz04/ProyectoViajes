@@ -86,5 +86,19 @@ namespace Viajes.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("PagoTransportista")]
+        public IActionResult Pago(int id)
+        {
+            var list = _viajeService.Pago(id);
+            return Ok(list);
+        }
+
+        [HttpGet("Reporte")]
+        public IActionResult Report(int tran_Id, DateTime FechaInicio, DateTime FechaFin)
+        {
+            var list = _viajeService.Reporte(tran_Id, FechaInicio, FechaFin);
+            return Ok(list);
+        }
+
     }
 }

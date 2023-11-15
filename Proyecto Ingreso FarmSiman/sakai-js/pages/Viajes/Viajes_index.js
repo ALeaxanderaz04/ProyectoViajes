@@ -10,11 +10,10 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 
 const App = () => {
-
     const [posts, setPosts] = useState([]); //alamcenar los registros
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
     const [DeleteModal, setDeleteModal] = useState(false); //abrir el modal eliminar
-    const [ColaboradorId, setColaboradorId] = useState("");//almecenar el id del empleado
+    const [ViajeId, setViajeId] = useState("");//almecenar el id del empleado
     const toast = useRef(null); //para los toast
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -22,7 +21,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 6;
+        var pant_Id = 9;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -38,21 +37,21 @@ const App = () => {
 
                 if (r.data.data.messageStatus == '1') {
 
-                    if (localStorage.getItem('Colaborador') == '1') {
+                    if (localStorage.getItem('Viaje') == '1') {
                         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
                         setLoading(true);
                     }
-                    else if (localStorage.getItem('Colaborador') == '2') {
+                    else if (localStorage.getItem('Viaje') == '2') {
                         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
                         setLoading(true);
                     }
-                    else if (localStorage.getItem('Colaborador') == '400') {
+                    else if (localStorage.getItem('Viaje') == '400') {
                         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
                     }
-                    localStorage.removeItem('Colaborador');
+                    localStorage.removeItem('Viaje');
 
                     if (loading) {
-                        axios.get(Global.url + 'Colaborador/Listado')
+                        axios.get(Global.url + 'Viajes/Listado')
                             .then(response => response.data)
                             .then(data => {
                                 setLoading(false);
@@ -68,13 +67,11 @@ const App = () => {
 
     }, [loading]);
 
-
-
     const header = (
         <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <div className="grid">
                 <div className="col-12">
-                    <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => router.push('./Colaboradores_create')} />
+                    <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => router.push('./Viajes_create')} />
                 </div>
             </div>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -88,24 +85,23 @@ const App = () => {
 
     //abrir modal eliminar
     const OpenDeleteModal = (id) => {
-        setColaboradorId(id);
+        setViajeId(id);
         setDeleteModal(true);
     }
 
     //cerrar modal eliminar
     const hideDeleteModal = () => {
-        setColaboradorId("");
+        setViajeId("");
         setDeleteModal(false);
     };
 
-
     //mandar datos del eliminar a la api
-    const EliminarColaboradores = (e) => {
+    const EliminarViajes = (e) => {
 
         let payload = {
-            cola_Id: ColaboradorId,
+            viaj_id: parseInt(ViajeId),
         }
-        axios.post(Global.url + 'Colaborador/Eliminar', payload)
+        axios.post(Global.url + 'Viajes/Eliminar', payload)
             .then((r) => {
                 if (r.data.data.messageStatus == '1') {
                     toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
@@ -115,7 +111,7 @@ const App = () => {
                 }
                 setLoading(true);
                 hideDeleteModal();
-                setColaboradorId("");
+                setViajeId("");
             })
             .catch((e) => {
                 console.log(e)
@@ -129,7 +125,7 @@ const App = () => {
 
                 <div className="card" style={{ background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
                     <div className="row text-center d-flex align-items-center">
-                        <h2 style={{ color: 'white' }}>Colaboradores</h2>
+                        <h2 style={{ color: 'white' }}>Viajes</h2>
                     </div>
                 </div>
 
@@ -152,15 +148,13 @@ const App = () => {
                         filterMode="filter"
                         header={header}
                         value={posts.filter((post) =>
-                            post.cola_NombreCompleto.toLowerCase().includes(searchText.toLowerCase()) ||
-                            post.cola_Identidad.toLowerCase().includes(searchText.toLowerCase()) ||
-                            post.cola_Sexo.toLowerCase().includes(searchText.toLowerCase()) 
+                            post.tran_NombreCompleto.toLowerCase().includes(searchText.toLowerCase()) ||
+                            post.sucu_Nombre.toLowerCase().includes(searchText.toLowerCase()) 
                         )}
 
                     >
-                        <Column field="cola_NombreCompleto" header="Nombre" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-                        <Column field="cola_Identidad" header="Identidad" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-                        <Column field="cola_Sexo" header="Sexo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+                        <Column field="tran_NombreCompleto" header="Nombre Transportista" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+                        <Column field="sucu_Nombre" header="Sucursal" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
 
                         <Column
                             field="acciones"
@@ -169,9 +163,9 @@ const App = () => {
                             style={{ minWidth: '300px' }}
                             body={rowData => (
                                 <div>
-                                    <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }}     onClick={() => router.push({ pathname: './Colaboradores_Details', query: { id: rowData.cola_Id } })}/> .
-                                    <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './Colaboradores_edit', query: { id: rowData.cola_Id } })} /> .
-                                    <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.cola_Id)} />
+                                    <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }}     onClick={() => router.push({ pathname: './Viajes_details', query: { id: rowData.viaj_Id } })}/> .
+                                    <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './Viajes_edit', query: { id: rowData.viaj_Id } })} /> .
+                                    <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.viaj_Id)} />
                                 </div>
                             )}
                         />
@@ -181,7 +175,7 @@ const App = () => {
                     <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Empleados" onHide={hideDeleteModal} modal footer={
                         <>
                             <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-                            <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarColaboradores} />
+                            <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarViajes} />
                         </>
                     }>
                         <div className="flex align-items-center justify-content-center">
@@ -196,6 +190,7 @@ const App = () => {
             </div>
         </div>
     )
+
 }
 
 export default App;

@@ -131,20 +131,6 @@ const App = () => {
 
                     <div className="col-6">
                         <div className="field">
-                            <label style={{ fontWeight: 'bold', fontSize: '18px' }}>Sucursal Asignada</label><br />
-                            <label htmlFor="inputtext">{datos.sucu_Nombre}</label>
-                        </div>
-                    </div>
-
-                    <div className="col-6">
-                        <div className="field">
-                            <label style={{ fontWeight: 'bold', fontSize: '18px' }}>Distancia de la Sucursal</label><br />
-                            <label htmlFor="inputtext">{`${datos.cola_DistanciaSucursal} KM`}</label>
-                        </div>
-                    </div>
-
-                    <div className="col-6">
-                        <div className="field">
                             <label style={{ fontWeight: 'bold', fontSize: '18px' }}>Municipio de Vivienda</label><br />
                             <label htmlFor="inputtext">{datos.muni_Nombre}</label>
                         </div>
@@ -165,6 +151,7 @@ const App = () => {
                     </div>
 
                     <div className="col-12">
+                        
                         <div className="grid p-fluid">
                             <div className='col-12 mt-2'>
                                 <DataTable

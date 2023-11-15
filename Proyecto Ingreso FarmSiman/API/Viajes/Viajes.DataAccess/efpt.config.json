@@ -46,6 +46,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[viaj].[tbColaboradoresPorSucursal]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[viaj].[tbSucursales]",
          "ObjectType": 0
       },
@@ -91,6 +95,10 @@
       },
       {
          "Name": "[viaj].[VW_tbColaboradores]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[viaj].[VW_tbColaboradoresPorSucursal]",
          "ObjectType": 3
       },
       {

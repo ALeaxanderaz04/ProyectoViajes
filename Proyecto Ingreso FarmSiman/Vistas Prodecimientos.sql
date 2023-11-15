@@ -822,9 +822,6 @@ SELECT T1.[cola_Id]
 	  ,T6.depa_Nombre
       ,[cola_DireccionExacta]
       ,[cola_Telefono]
-      ,T7.[sucu_Id]
-	  ,T7.sucu_Nombre
-	  ,t1.cola_DistanciaSucursal
       ,[cola_UsuCreacion]
 	  ,t2.user_NombreUsuario AS user_Creacion
       ,[cola_FechaCreacion]
@@ -835,8 +832,7 @@ SELECT T1.[cola_Id]
   FROM viaj.tbColaboradores T1 INNER JOIN gral.tbEstadosCiviles T4
   ON T4.eciv_Id = T1.eciv_Id INNER JOIN gral.tbMunicipios T5
   ON T5.muni_Id = T1.muni_Id INNER JOIN gral.tbDepartamentos T6
-  ON T5.depa_Id = T6.depa_Id INNER JOIN viaj.tbSucursales T7
-  ON T7.sucu_Id = T1.sucu_Id INNER JOIN acce.tbUsuarios T2
+  ON T5.depa_Id = T6.depa_Id INNER JOIN acce.tbUsuarios T2
   ON T1.cola_UsuCreacion = T2.[user_Id] LEFT JOIN acce.tbUsuarios T3
   ON T1.cola_UsuModificacion = T3.[user_Id]
 
@@ -875,15 +871,13 @@ CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradores_Insert
  @muni_Id CHAR(4),
  @cola_DireccionExacta NVARCHAR(250),
  @cola_Telefono NVARCHAR(20),
- @sucu_Id INT,
- @cola_DistanciaSucursal DECIMAL(18,2),
  @cola_UsuCreacion INT)
 AS
 BEGIN
 	BEGIN TRY
         
-		INSERT INTO viaj.tbColaboradores (cola_Nombres, cola_Apellidos, cola_Identidad, cola_FechaNacimiento, cola_Sexo, eciv_Id, muni_Id, cola_DireccionExacta, cola_Telefono, sucu_Id, cola_DistanciaSucursal, cola_UsuCreacion)
-		VALUES (@cola_Nombres, @cola_Apellidos, @cola_Identidad, @cola_FechaNacimiento, @cola_Sexo, @eciv_Id, @muni_Id, @cola_DireccionExacta, @cola_Telefono, @sucu_Id, @cola_DistanciaSucursal, @cola_UsuCreacion)
+		INSERT INTO viaj.tbColaboradores (cola_Nombres, cola_Apellidos, cola_Identidad, cola_FechaNacimiento, cola_Sexo, eciv_Id, muni_Id, cola_DireccionExacta, cola_Telefono, cola_UsuCreacion)
+		VALUES (@cola_Nombres, @cola_Apellidos, @cola_Identidad, @cola_FechaNacimiento, @cola_Sexo, @eciv_Id, @muni_Id, @cola_DireccionExacta, @cola_Telefono, @cola_UsuCreacion)
 
 		SELECT 1 
 	END TRY
@@ -905,8 +899,6 @@ CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradores_Update
  @muni_Id CHAR(4),
  @cola_DireccionExacta NVARCHAR(250),
  @cola_Telefono NVARCHAR(20),
- @sucu_Id INT,
- @cola_DistanciaSucursal DECIMAL(18,2),
  @cola_UsuModificacion INT)
 AS
 BEGIN
@@ -922,8 +914,6 @@ BEGIN
 			muni_Id = @muni_Id, 
 			cola_DireccionExacta = @cola_DireccionExacta, 
 			cola_Telefono = @cola_Telefono, 
-			sucu_Id = @sucu_Id, 
-			cola_DistanciaSucursal = @cola_DistanciaSucursal, 
 			cola_UsuModificacion = @cola_UsuModificacion, 
 			cola_FechaModificacion = GETDATE()
 		WHERE cola_Id = @cola_Id
@@ -1158,7 +1148,7 @@ BEGIN
 		INSERT INTO [viaj].[tbSucursales](sucu_Nombre, muni_Id, sucu_Direccion, sucu_UsuCreacion)
 		VALUES	(@sucu_Nombre, @muni_Id, @sucu_Direccion, @sucu_UsuCreacion)
 
-		SELECT 1 
+		SELECT SCOPE_IDENTITY()
 
 	END TRY
 	BEGIN CATCH
@@ -1200,9 +1190,12 @@ CREATE OR ALTER PROCEDURE viaj.UDP_tbSucursales_Delete
 AS
 BEGIN
  BEGIN TRY
-	UPDATE	viaj.tbSucursales
-	SET		sucu_Estado = 0
-	WHERE	sucu_Id = @sucu_Id
+
+	DELETE  FROM viaj.tbColaboradoresPorSucursal
+	WHERE sucu_Id = @sucu_Id
+
+	DELETE  FROM viaj.tbSucursales
+	WHERE sucu_Id = @sucu_Id
 
 	SELECT 1 
  END TRY
@@ -1232,6 +1225,78 @@ END
 
 
 
+--******************************************--
+--*********** TABLA COLABOIRADORES POR SUCURSALES **************--
+
+--**************  VISTA ******************--
+GO
+CREATE OR ALTER VIEW viaj.VW_tbColaboradoresPorSucursal
+AS
+SELECT	cosu_Id,
+		T1.cola_Id,
+		T3.[cola_Nombres] + ' ' +  T3.[cola_Apellidos] AS cola_NombreCompleto,
+		T3.cola_identidad,
+		T1.sucu_Id,
+		T2.sucu_Nombre,
+		T1.cosu_DistanciaSucursal,
+		T1.cosu_UsuCreacion,		
+		T1.cosu_FechaCreacion,		
+		T1.cosu_UsuModificacion,
+		T1.cosu_FechaModificacion,
+		T1.cosu_Estado		
+
+FROM viaj.tbColaboradoresPorSucursal	AS T1 
+INNER JOIN viaj.tbSucursales			AS T2 ON T1.sucu_Id  = T2.sucu_Id
+INNER JOIN viaj.tbColaboradores			AS T3 ON t1.cola_Id = T3.cola_Id
+
+
+--**************  INDEX ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradoresPorSucursales_Index
+(@sucu_Id INT)
+AS
+BEGIN
+	SELECT * FROM viaj.VW_tbColaboradoresPorSucursal
+	WHERE cosu_Estado = 1 AND  sucu_Id = @sucu_Id
+END
+
+
+--**************  INSERT ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradoresPorSucursales_Insert 
+(@sucu_Id INT,
+ @cola_Id INT,
+ @cosu_DistanciaSucursal DECIMAL(18,2),
+ @cosu_UsuCreacion INT)
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO [viaj].[tbColaboradoresPorSucursal] (sucu_Id, cola_Id,cosu_DistanciaSucursal, cosu_UsuCreacion)
+		VALUES (@sucu_Id, @cola_Id, @cosu_DistanciaSucursal,@cosu_UsuCreacion)
+		SELECT 1
+	END TRY
+	BEGIN CATCH
+		SELECT 'Error ' + ERROR_MESSAGE() 
+	END CATCH
+END
+
+--**************  INSERT ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradoresPorSucursales_Delete 
+(@cosu_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		DELETE FROM [viaj].[tbColaboradoresPorSucursal]
+		WHERE cosu_Id = @cosu_Id
+
+		SELECT 1
+	END TRY
+	BEGIN CATCH
+		SELECT 'Error ' + ERROR_MESSAGE() 
+	END CATCH
+END
+
 
 --******************************************--
 --*********** TABLA VIAJES **************--
@@ -1243,6 +1308,9 @@ AS
 SELECT	viaj_Id, 
 		T1.tran_Id, 
 		T2.tran_Nombres + ' ' +  T2.tran_Apellidos AS tran_NombreCompleto,
+		T1.sucu_Id,
+		T5.sucu_Nombre,
+		T1.viaj_FechaViaje,
 		viaj_UsuCreacion, 
 		T3.user_NombreUsuario AS user_Creacion,
 		viaj_FechaCreacion, 
@@ -1253,7 +1321,8 @@ SELECT	viaj_Id,
 FROM viaj.tbViajes AS T1	INNER JOIN viaj.tbTransportistas AS T2
 ON T1.tran_Id = T2.tran_Id	INNER JOIN acce.tbUsuarios AS T3
 ON T1.viaj_UsuCreacion = T3.[user_Id] LEFT JOIN acce.tbUsuarios AS T4
-ON T1.viaj_UsuModificacion = T4.[user_Id]
+ON T1.viaj_UsuModificacion = T4.[user_Id] INNER JOIN viaj.tbSucursales AS T5
+ON T5.sucu_Id	= T1.sucu_Id	
 
 --**************  INDEX ******************--
 GO
@@ -1277,14 +1346,16 @@ END
 
 --**************  CREATE ******************--
 GO
-CREATE OR ALTER PROCEDURE viaj.UDP_tbViajes_Create
+CREATE OR ALTER PROCEDURE viaj.UDP_tbViajes_Insert
 (@tran_Id INT,
+ @sucu_Id INT,
+ @viaj_FechaViaje DATETIME,
  @viaj_UsuCreacion INT)
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO viaj.tbViajes (tran_Id, viaj_UsuCreacion)
-		VALUES (@tran_Id, @viaj_UsuCreacion)
+		INSERT INTO viaj.tbViajes (tran_Id,sucu_Id, viaj_FechaViaje,viaj_UsuCreacion)
+		VALUES (@tran_Id, @sucu_Id, CAST(@viaj_FechaViaje AS DATE), @viaj_UsuCreacion)
 
 		SELECT SCOPE_IDENTITY() 
 	END TRY
@@ -1299,12 +1370,16 @@ GO
 CREATE OR ALTER PROCEDURE viaj.UDP_tbViajes_Update
 (@viaj_Id INT,
  @tran_Id INT,
+ @sucu_Id INT,
+ @viaj_FechaViaje DATETIME,
  @viaj_UsuModificacion INT)
 AS
 BEGIN
 	BEGIN TRY
 		UPDATE viaj.tbViajes
 		SET tran_Id = @tran_Id, 
+			sucu_Id = @sucu_Id,
+			viaj_FechaViaje = CAST(@viaj_FechaViaje AS DATE),
 			viaj_UsuModificacion = @viaj_UsuModificacion, 
 			viaj_FechaModificacion = GETDATE() 
 		WHERE viaj_Id = @viaj_Id
@@ -1348,11 +1423,13 @@ END
 
 --**************  VIEW ******************--
 GO
-CREATE OR ALTER VIEW viaj.VW_tbViajesDetalles
+CREATE OR ALTER VIEW viaj.VW_tbViajesDetalles 
 AS
 SELECT	vide_Id,
 		T1.viaj_Id, 
+		T1.cola_Id,
 		T3.cola_Nombres + ' ' +  T3.cola_Apellidos AS cola_NombreCompleto,
+		T3.cola_Identidad,
 		vide_UsuCreacion, 
 		T4.user_NombreUsuario AS user_Creacion,
 		vide_FechaCreacion, 
@@ -1360,20 +1437,21 @@ SELECT	vide_Id,
 		T5.user_NombreUsuario AS user_Modificacion,
 		vide_FechaModificacion, 
 		vide_Estado
-FROM viaj.tbViajesDetalles AS T1 INNER JOIN viaj.tbViajes AS  T2
-ON T1.viaj_Id = T2.viaj_Id	INNER JOIN  viaj.tbColaboradores AS T3
-ON t1.cola_Id = T3.cola_Id  INNER JOIN acce.tbUsuarios AS T4
-ON T1.vide_UsuCreacion = T4.[user_Id] LEFT JOIN acce.tbUsuarios AS T5
-ON T1.vide_UsuModificacion = T5.[user_Id]
+FROM viaj.tbViajesDetalles AS T1 INNER JOIN viaj.tbViajes AS		T2
+ON T1.viaj_Id = T2.viaj_Id	INNER JOIN  viaj.tbColaboradores AS		T3
+ON t1.cola_Id = T3.cola_Id  INNER JOIN acce.tbUsuarios AS			T4
+ON T1.vide_UsuCreacion = T4.[user_Id] LEFT JOIN acce.tbUsuarios AS	T5
+ON T1.vide_UsuModificacion = T5.[user_Id] 
+
 
 
 --**************  INDEX ******************--
 GO
-CREATE OR ALTER PROCEDURE viaj.UDP_tbViajesDetalles_Index
+CREATE OR ALTER PROCEDURE viaj.UDP_tbViajesDetalles_Index 
 (@viaj_Id INT)
 AS
 BEGIN
-	SELECT * FROM viaj.VW_tbViajes
+	SELECT * FROM viaj.VW_tbViajesDetalles
 	WHERE viaj_Id = @viaj_Id;
 END
 
@@ -1401,7 +1479,7 @@ END
 
 --**************  DELETE ******************--
 GO
-CREATE OR ALTER PROCEDURE viaj.UDP_tbViajesDetalles_Delete
+CREATE OR ALTER PROCEDURE viaj.UDP_tbViajesDetalles_Delete 
 (@vide_Id INT)
 AS
 BEGIN
@@ -1419,6 +1497,8 @@ END
 
 ----/***********************************************\-----
 --- ********** PROCIDIMIENTOS ADICIONALES **********---
+
+--**************  MUNICIPIOS POR DEPARTAMENTO ******************--
 GO
 CREATE OR ALTER PROCEDURE gral.tbMunicipios_DDL 
 (@depa_Id CHAR(2))
@@ -1427,3 +1507,100 @@ BEGIN
 	SELECT * FROM gral.VW_tbMunicipios
 	WHERE depa_Id = @depa_Id
 END
+
+
+--**************  COLABORADORES DISPONIBLES ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradores_Available
+(@sucu_Id INT)
+AS
+BEGIN
+	
+	SELECT * FROM viaj.VW_tbColaboradores
+	WHERE cola_Id NOT IN (SELECT cola_Id FROM [viaj].[tbColaboradoresPorSucursal]
+						WHERE sucu_Id = @sucu_Id)
+END
+
+
+--**************  COLABORADORES DISPONIBLES PARA VIAJAR ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_tbColaboradores_AvailableTravel 
+(@viaj_Id INT)
+AS
+BEGIN
+	
+	DECLARE @FechaViaje DATETIME = (SELECT viaj_FechaViaje FROM viaj.tbViajes WHERE viaj_Id = @viaj_Id)
+	DECLARE @Sucursal INT = (SELECT sucu_Id FROM viaj.tbViajes WHERE viaj_Id = @viaj_Id)
+
+	SELECT * 
+	FROM viaj.VW_tbColaboradores 
+	WHERE cola_Id NOT IN (
+							SELECT cola_Id 
+							FROM viaj.tbViajesDetalles AS T1 
+							INNER JOIN viaj.tbViajes AS T2 ON T1.viaj_Id = T2.viaj_Id 
+							WHERE  T1.viaj_Id = @viaj_Id OR T2.viaj_FechaViaje = @FechaViaje
+	) AND cola_Id IN (	SELECT cola_Id
+						FROM viaj.tbColaboradoresPorSucursal
+						WHERE sucu_Id = @Sucursal)
+END
+
+--**************  KILOMETRAJE ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_Kilometraje
+(@sucu_Id INT,
+ @cola_Id INT)
+AS
+BEGIN
+		SELECT cosu_DistanciaSucursal
+		FROM viaj.VW_tbColaboradoresPorSucursal
+		WHERE cola_Id = @cola_Id AND  sucu_Id = @sucu_Id
+END
+
+--**************  PAGO ******************--
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_PagoTransportista 
+(@viaj_Id INT)
+AS
+BEGIN
+	DECLARE @Sucursal INT = (SELECT sucu_Id FROM viaj.tbViajes WHERE viaj_Id = @viaj_Id)
+	DECLARE @Tarifa DECIMAL(18,2) = (SELECT tran_PagoKm FROM viaj.tbTransportistas WHERE tran_Id = (SELECT tran_Id FROM viaj.tbViajes WHERE viaj_Id = @viaj_Id))
+	
+	SELECT	SUM(cosu_DistanciaSucursal) * @Tarifa	AS Pago ,
+			SUM(cosu_DistanciaSucursal)				AS Kilometraje
+	FROM viaj.tbColaboradoresPorSucursal WHERE cola_Id IN (SELECT cola_Id FROM viaj.tbViajesDetalles WHERE viaj_Id = @viaj_Id) AND sucu_Id = @Sucursal
+END
+
+GO
+CREATE OR ALTER PROCEDURE viaj.UDP_Reporte
+(@tran_Id INT,
+ @FechaInicio DATE,
+ @FechaFin DATE)
+AS
+BEGIN
+	SELECT	T1.viaj_Id, 
+			tran_Id, 
+			tran_NombreCompleto, 
+			sucu_Id, 
+			sucu_Nombre, 
+			viaj_FechaViaje,
+			(SELECT	SUM(cosu_DistanciaSucursal) * (SELECT tran_PagoKm FROM viaj.tbTransportistas WHERE tran_Id = (SELECT tran_Id FROM viaj.tbViajes WHERE viaj_Id = T1.viaj_Id)) FROM viaj.tbColaboradoresPorSucursal WHERE cola_Id IN (SELECT cola_Id FROM viaj.tbViajesDetalles WHERE viaj_Id = T1.viaj_Id) AND sucu_Id = (SELECT sucu_Id FROM viaj.tbViajes WHERE viaj_Id = T1.viaj_Id)) AS Pago,
+			(SELECT SUM(cosu_DistanciaSucursal) FROM viaj.tbColaboradoresPorSucursal WHERE cola_Id IN (SELECT cola_Id FROM viaj.tbViajesDetalles WHERE viaj_Id = T1.viaj_Id) AND sucu_Id = (SELECT sucu_Id FROM viaj.tbViajes WHERE viaj_Id = T1.viaj_Id)) AS Kilometraje,
+
+			(SELECT	vide_Id, viaj_Id, cola_Id, cola_NombreCompleto, cola_Identidad
+			 FROM	viaj.VW_tbViajesDetalles T2
+			 WHERE  T1.viaj_Id = T2.viaj_Id FOR JSON PATH) AS Detalles
+			
+
+	FROM	viaj.VW_tbViajes T1
+	WHERE tran_Id = @tran_Id AND viaj_FechaViaje BETWEEN @FechaInicio AND @FechaFin
+END
+
+/*
+
+GO
+DECLARE @tran_Id INT = 1
+DECLARE @FechaInicio DATE = '11/13/2023'
+DECLARE @FechaFin DATE = '11/16/2023'
+EXEC viaj.UDP_Reporte @tran_Id, @FechaInicio, @FechaFin
+
+*/

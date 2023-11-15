@@ -71,6 +71,53 @@ namespace Viajes.DataAccess.Repository
             return result;
         }
 
-        
+        public IEnumerable<VW_tbColaboradoresPorSucursal> ListColaboradoresPorSucursal(int Id)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            RequestStatus result = new RequestStatus();
+            parametros.Add("@sucu_Id", Id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbColaboradoresPorSucursal>(ScriptDataBase.UDP_tbColaboradoresPorSucursal_Listar, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+
+        public RequestStatus InsertColaboradoresPorSucursal(tbColaboradoresPorSucursal item)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            RequestStatus result = new RequestStatus();
+            parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@cola_Id", item.cola_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@cosu_DistanciaSucursal", item.cosu_DistanciaSucursal, DbType.Decimal, ParameterDirection.Input);
+            parametros.Add("@cosu_UsuCreacion", item.cosu_UsuCreacion, DbType.Int32, ParameterDirection.Input);
+
+            var answer = db.QueryFirst<string>(ScriptDataBase.UDP_tbColaboradoresPorSucursal_Insertar, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.MessageStatus = answer;
+            return result;
+        }
+
+        public RequestStatus DeleteColaboradoresPorSucursal(tbColaboradoresPorSucursal item)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            RequestStatus result = new RequestStatus();
+            parametros.Add("@cosu_Id", item.cosu_Id, DbType.Int32, ParameterDirection.Input);
+
+            var answer = db.QueryFirst<string>(ScriptDataBase.UDP_tbColaboradoresPorSucursal_Eliminar, parametros, commandType: System.Data.CommandType.StoredProcedure);
+            result.MessageStatus = answer;
+            return result;
+        }
+
+        public IEnumerable<VW_tbColaboradoresPorSucursal> Kilometraje(int sucu_Id, int cola_Id)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            RequestStatus result = new RequestStatus();
+            parametros.Add("@sucu_Id", sucu_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@cola_Id", cola_Id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query<VW_tbColaboradoresPorSucursal>(ScriptDataBase.UDP_Kilometraje, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+
     }
 }

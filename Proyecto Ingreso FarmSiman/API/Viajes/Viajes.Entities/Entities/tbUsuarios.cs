@@ -12,6 +12,8 @@ namespace Viajes.Entities.Entities
         {
             Inverseuser_UsuCreacionNavigation = new HashSet<tbUsuarios>();
             Inverseuser_UsuModificacionNavigation = new HashSet<tbUsuarios>();
+            tbColaboradoresPorSucursalcosu_UsuCreacionNavigation = new HashSet<tbColaboradoresPorSucursal>();
+            tbColaboradoresPorSucursalcosu_UsuModificacionNavigation = new HashSet<tbColaboradoresPorSucursal>();
             tbColaboradorescola_UsuCreacionNavigation = new HashSet<tbColaboradores>();
             tbColaboradorescola_UsuModificacionNavigation = new HashSet<tbColaboradores>();
             tbDepartamentosdepa_UsuCreacionNavigation = new HashSet<tbDepartamentos>();
@@ -50,6 +52,8 @@ namespace Viajes.Entities.Entities
         public virtual tbUsuarios user_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbUsuarios> Inverseuser_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbUsuarios> Inverseuser_UsuModificacionNavigation { get; set; }
+        public virtual ICollection<tbColaboradoresPorSucursal> tbColaboradoresPorSucursalcosu_UsuCreacionNavigation { get; set; }
+        public virtual ICollection<tbColaboradoresPorSucursal> tbColaboradoresPorSucursalcosu_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbColaboradores> tbColaboradorescola_UsuCreacionNavigation { get; set; }
         public virtual ICollection<tbColaboradores> tbColaboradorescola_UsuModificacionNavigation { get; set; }
         public virtual ICollection<tbDepartamentos> tbDepartamentosdepa_UsuCreacionNavigation { get; set; }

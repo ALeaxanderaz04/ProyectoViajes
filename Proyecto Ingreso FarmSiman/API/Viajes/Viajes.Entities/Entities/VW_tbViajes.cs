@@ -11,6 +11,9 @@ namespace Viajes.Entities.Entities
         public int viaj_Id { get; set; }
         public int tran_Id { get; set; }
         public string tran_NombreCompleto { get; set; }
+        public int sucu_Id { get; set; }
+        public string sucu_Nombre { get; set; }
+        public DateTime viaj_FechaViaje { get; set; }
         public int viaj_UsuCreacion { get; set; }
         public string user_Creacion { get; set; }
         public DateTime viaj_FechaCreacion { get; set; }

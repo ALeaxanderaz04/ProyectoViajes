@@ -49,8 +49,6 @@ namespace Viajes.DataAccess.Repository
             parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@cola_DireccionExacta", item.cola_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@cola_Telefono", item.cola_Telefono, DbType.String, ParameterDirection.Input);
-            parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@cola_DistanciaSucursal", item.cola_DistanciaSucursal, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@cola_UsuCreacion", item.cola_UsuCreacion, DbType.Int32, ParameterDirection.Input);
 
             var answer = db.QueryFirst<string>(ScriptDataBase.UDP_tbColaboradores_Insertar, parametros, commandType: System.Data.CommandType.StoredProcedure);
@@ -79,13 +77,29 @@ namespace Viajes.DataAccess.Repository
             parametros.Add("@muni_Id", item.muni_Id, DbType.String, ParameterDirection.Input);
             parametros.Add("@cola_DireccionExacta", item.cola_DireccionExacta, DbType.String, ParameterDirection.Input);
             parametros.Add("@cola_Telefono", item.cola_Telefono, DbType.String, ParameterDirection.Input);
-            parametros.Add("@sucu_Id", item.sucu_Id, DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@cola_DistanciaSucursal", item.cola_DistanciaSucursal, DbType.Decimal, ParameterDirection.Input);
             parametros.Add("@cola_UsuModificacion", item.cola_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
             var answer = db.QueryFirst<string>(ScriptDataBase.UDP_tbColaboradores_Actualizar, parametros, commandType: System.Data.CommandType.StoredProcedure);
             result.MessageStatus = answer;
             return result;
+        }
+
+        public IEnumerable<VW_tbColaboradores> Available(int Id)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters() ;
+
+            parametros.Add("@sucu_Id", Id, DbType.Int32, ParameterDirection.Input);
+            return db.Query<VW_tbColaboradores>(ScriptDataBase.UDP_tbColaboradores_Disponibles, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<VW_tbColaboradores> AvailableTravel(int Id)
+        {
+            using var db = new SqlConnection(FarmViajesContext.ConnectionString);
+            var parametros = new DynamicParameters();
+
+            parametros.Add("@viaj_Id", Id, DbType.Int32, ParameterDirection.Input);
+            return db.Query<VW_tbColaboradores>(ScriptDataBase.UDP_tbColaboradores_DisponiblesViaje, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }

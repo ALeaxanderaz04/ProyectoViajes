@@ -47,7 +47,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 11;
+        var pant_Id = 8;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -268,7 +268,7 @@ const App = () => {
         <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <div className="grid">
                 <div className="col-12">
-                    <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => setCreateModal(true)} />
+                    <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => router.push('./sucursal_create')} />
                 </div>
             </div>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -325,8 +325,8 @@ const App = () => {
                             style={{ minWidth: '300px' }}
                             body={rowData => (
                                 <div>
-                                    <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> .
-                                    <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => LlamarDatosEdit(rowData.sucu_Id)} /> .
+                                    <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './sucursal_detail', query: { id: rowData.sucu_Id } })} /> .
+                                    <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './sucursal_edit', query: { id: rowData.sucu_Id } })} /> .
                                     <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.sucu_Id)} />
                                 </div>
                             )}

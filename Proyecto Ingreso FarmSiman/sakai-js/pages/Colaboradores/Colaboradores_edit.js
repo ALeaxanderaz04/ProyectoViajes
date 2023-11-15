@@ -28,13 +28,9 @@ const App = () => {
     const [Sexo, setSexo] = useState('');
     const [Dirrecion, setDirrecion] = useState('');
     const [Telefono, setTelefono] = useState('');
-    const [DistanciaSucursal, setDistanciaSucursal] = useState('');
 
     const [EstadosCivilesDDL, setEstadosCivilesDDL] = useState([]); //ddl estados civiles
     const [EstadoCivil, setEstadoCivil] = useState(''); //almacena el valor seleccionado del ddl 
-
-    const [SucursalDDL, setSucursalDDL] = useState([]); //ddl Sucursal
-    const [Sucursal, setSucursal] = useState(''); //almacena el valor seleccionado del ddl 
 
     const [DepartaemntoDDL, setDepartamentoDDL] = useState([]);//ddl Departemento 
     const [Deparatemento, setDepartamento] = useState('');//almacena el valor seleccionado del ddl 
@@ -68,16 +64,10 @@ const App = () => {
                         .then((data) => setEstadosCivilesDDL(data.data.map((c) => ({ code: c.eciv_Id, name: c.eciv_Descripcion }))))
                         .catch(error => console.error(error))
 
-                    axios.get(Global.url + 'Sucursal/Listado')
-                        .then(response => response.data)
-                        .then((data) => setSucursalDDL(data.data.map((c) => ({ code: c.sucu_Id, name: c.sucu_Nombre }))))
-                        .catch(error => console.error(error))
-
                     axios.get(Global.url + 'Departamento/Listado')
                         .then(response => response.data)
                         .then((data) => setDepartamentoDDL(data.data.map((c) => ({ code: c.depa_Id, name: c.depa_Nombre }))))
                         .catch(error => console.error(error))
-
 
                     axios.get(Global.url + 'Colaborador/Buscar?id=' + id)
                         .then((r) => {
@@ -87,13 +77,11 @@ const App = () => {
                             setIdentidad(r.data.cola_Identidad);
                             setSexo(r.data.cola_Sexo);
                             setTelefono(r.data.cola_Telefono);
-                            setDistanciaSucursal(r.data.cola_DistanciaSucursal)
                             setDirrecion(r.data.cola_DireccionExacta);
 
                             var fecha = new Date(r.data.cola_FechaNacimiento)
                             setFechaNac(fecha);
                             setEstadoCivil({ code: r.data.eciv_Id, name: r.data.eciv_Descripcion });
-                            setSucursal({ code: r.data.sucu_Id, name: r.data.sucu_Nombre} );
                             setDepartamento({ code: r.data.depa_Id, name: r.data.depa_Nombre });
                             AsiganrlevalorMunicipioDDL(r.data.depa_Id, r.data)
                         })
@@ -134,7 +122,7 @@ const App = () => {
 
         if (!Nombres.trim() || !Apellidos.trim() || !Identidad.trim() || !FechaNac || !Sexo ||
             !EstadoCivil || !Deparatemento || !Municipio || !Dirrecion.trim() ||
-            !Telefono.trim() || !Sucursal || !DistanciaSucursal || parseInt(DistanciaSucursal) > 50) {
+            !Telefono.trim() ) {
 
             setSubmitted(true);
 
@@ -156,8 +144,6 @@ const App = () => {
                 muni_Id: Municipio.code,
                 cola_DireccionExacta: Dirrecion.trim(),
                 cola_Telefono: Telefono.trim(),
-                sucu_Id: Sucursal.code,
-                cola_DistanciaSucursal: DistanciaSucursal,
                 cola_UsuModificacion: parseInt(localStorage.getItem('usuID'))
             }
 
@@ -256,34 +242,6 @@ const App = () => {
                             <label htmlFor="inputtext">Telefono</label><br />
                             <InputMask id="inputmaskTelefono" mask="9999-9999" value={Telefono} onChange={(e) => setTelefono(e.target.value)} className={classNames({ 'p-invalid': submitted && !Telefono })} />
                             {submitted && !Telefono && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
-                        </div>
-                    </div>
-
-                    <div className='col-6'>
-                        <div className="field">
-                            <label htmlFor="Sucursal">Sucursal</label><br />
-                            <Dropdown optionLabel="name" placeholder="Selecionar" options={SucursalDDL} value={Sucursal} onChange={(e) => setSucursal(e.value)} className={classNames({ 'p-invalid': submitted && !Sucursal })} />
-                            {submitted && !Sucursal && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
-                        </div>
-                    </div>
-
-                    <div className='col-6'>
-                        <div className="field">
-                            <label htmlFor="Sexo">Distancia Sucursal (en Kilometros)</label><br />
-                            <InputText
-                                type="text"
-                                id="inputtext"
-                                value={DistanciaSucursal}
-                                onChange={(e) => setDistanciaSucursal(e.target.value)}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault();
-                                    }
-                                }}
-                                className={classNames({ 'p-invalid': submitted && !DistanciaSucursal })}
-                            />
-                            {submitted && !DistanciaSucursal && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
-                            {parseInt(DistanciaSucursal) > 50 && <small className="p-invalid" style={{ color: 'red' }}>La distancia no pueder ser  mayor a 50 Km.</small>}
                         </div>
                     </div>
 

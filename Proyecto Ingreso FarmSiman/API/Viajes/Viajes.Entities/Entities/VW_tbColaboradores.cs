@@ -23,9 +23,6 @@ namespace Viajes.Entities.Entities
         public string depa_Nombre { get; set; }
         public string cola_DireccionExacta { get; set; }
         public string cola_Telefono { get; set; }
-        public int sucu_Id { get; set; }
-        public string sucu_Nombre { get; set; }
-        public decimal cola_DistanciaSucursal { get; set; }
         public int cola_UsuCreacion { get; set; }
         public string user_Creacion { get; set; }
         public DateTime cola_FechaCreacion { get; set; }

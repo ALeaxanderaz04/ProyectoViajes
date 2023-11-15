@@ -10,7 +10,9 @@ namespace Viajes.Entities.Entities
     {
         public int vide_Id { get; set; }
         public int viaj_Id { get; set; }
+        public int cola_Id { get; set; }
         public string cola_NombreCompleto { get; set; }
+        public string cola_Identidad { get; set; }
         public int vide_UsuCreacion { get; set; }
         public string user_Creacion { get; set; }
         public DateTime vide_FechaCreacion { get; set; }

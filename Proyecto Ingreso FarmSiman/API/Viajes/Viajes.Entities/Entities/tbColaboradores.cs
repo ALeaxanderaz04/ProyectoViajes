@@ -10,6 +10,7 @@ namespace Viajes.Entities.Entities
     {
         public tbColaboradores()
         {
+            tbColaboradoresPorSucursal = new HashSet<tbColaboradoresPorSucursal>();
             tbViajesDetalles = new HashSet<tbViajesDetalles>();
         }
 
@@ -23,8 +24,6 @@ namespace Viajes.Entities.Entities
         public string muni_Id { get; set; }
         public string cola_DireccionExacta { get; set; }
         public string cola_Telefono { get; set; }
-        public int sucu_Id { get; set; }
-        public decimal cola_DistanciaSucursal { get; set; }
         public int cola_UsuCreacion { get; set; }
         public DateTime cola_FechaCreacion { get; set; }
         public int? cola_UsuModificacion { get; set; }
@@ -35,7 +34,7 @@ namespace Viajes.Entities.Entities
         public virtual tbUsuarios cola_UsuModificacionNavigation { get; set; }
         public virtual tbEstadosCiviles eciv { get; set; }
         public virtual tbMunicipios muni { get; set; }
-        public virtual tbSucursales sucu { get; set; }
+        public virtual ICollection<tbColaboradoresPorSucursal> tbColaboradoresPorSucursal { get; set; }
         public virtual ICollection<tbViajesDetalles> tbViajesDetalles { get; set; }
     }
 }

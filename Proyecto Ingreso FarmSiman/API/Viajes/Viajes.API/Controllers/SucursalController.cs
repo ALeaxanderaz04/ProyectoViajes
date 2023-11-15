@@ -61,5 +61,36 @@ namespace Viajes.API.Controllers
             var list = _viajeService.BuscarSucursales(id);
             return Ok(list);
         }
+
+        [HttpGet("ListadoColaboradoresPorSucursal")]
+        public IActionResult ListColaboradoresPorSucursal(int Id)
+        {
+            var list = _viajeService.ListadoColaboradoresPorSucursal(Id);
+            return Ok(list);
+        }
+
+
+        [HttpPost("InsertarColaboradoresPorSucursal")]
+        public IActionResult InsertColaboradoresPorSucursal(ColaboradoresPorSucursalViewModel colaboradores)
+        {
+            var item = _mapper.Map<tbColaboradoresPorSucursal>(colaboradores);
+            var result = _viajeService.InsertarColaboradoresPorSucursal(item);
+            return Ok(result);
+        }
+
+        [HttpPost("EliminarColaboradoresPorSucursal")]
+        public IActionResult DeletColaboradoresPorSucursal(ColaboradoresPorSucursalViewModel colaboradores)
+        {
+            var item = _mapper.Map<tbColaboradoresPorSucursal>(colaboradores);
+            var result = _viajeService.EliminarColaboradoresPorSucursal(item);
+            return Ok(result);
+        }
+
+        [HttpGet("Kilometraje")]
+        public IActionResult Kilometraje(int sucu_Id, int cola_Id)
+        {
+            var list = _viajeService.Kilometraje(sucu_Id, cola_Id);
+            return Ok(list);
+        }
     }
 }

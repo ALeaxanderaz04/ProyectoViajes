@@ -20,6 +20,7 @@ namespace Viajes.DataAccess.Context
         }
 
         public virtual DbSet<VW_tbColaboradores> VW_tbColaboradores { get; set; }
+        public virtual DbSet<VW_tbColaboradoresPorSucursal> VW_tbColaboradoresPorSucursal { get; set; }
         public virtual DbSet<VW_tbDepartamentos> VW_tbDepartamentos { get; set; }
         public virtual DbSet<VW_tbEstadosCiviles> VW_tbEstadosCiviles { get; set; }
         public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
@@ -32,6 +33,7 @@ namespace Viajes.DataAccess.Context
         public virtual DbSet<VW_tbViajes> VW_tbViajes { get; set; }
         public virtual DbSet<VW_tbViajesDetalles> VW_tbViajesDetalles { get; set; }
         public virtual DbSet<tbColaboradores> tbColaboradores { get; set; }
+        public virtual DbSet<tbColaboradoresPorSucursal> tbColaboradoresPorSucursal { get; set; }
         public virtual DbSet<tbDepartamentos> tbDepartamentos { get; set; }
         public virtual DbSet<tbEstadosCiviles> tbEstadosCiviles { get; set; }
         public virtual DbSet<tbMunicipios> tbMunicipios { get; set; }
@@ -61,8 +63,6 @@ namespace Viajes.DataAccess.Context
                 entity.Property(e => e.cola_DireccionExacta)
                     .IsRequired()
                     .HasMaxLength(250);
-
-                entity.Property(e => e.cola_DistanciaSucursal).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.cola_FechaCreacion).HasColumnType("datetime");
 
@@ -116,15 +116,36 @@ namespace Viajes.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(80);
 
-                entity.Property(e => e.sucu_Nombre)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
                 entity.Property(e => e.user_Creacion)
                     .IsRequired()
                     .HasMaxLength(100);
 
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbColaboradoresPorSucursal>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbColaboradoresPorSucursal", "viaj");
+
+                entity.Property(e => e.cola_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
+                entity.Property(e => e.cola_identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.cosu_DistanciaSucursal).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.cosu_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.cosu_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.sucu_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<VW_tbDepartamentos>(entity =>
@@ -432,6 +453,10 @@ namespace Viajes.DataAccess.Context
 
                 entity.ToView("VW_tbViajes", "viaj");
 
+                entity.Property(e => e.sucu_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
                 entity.Property(e => e.tran_NombreCompleto)
                     .IsRequired()
                     .HasMaxLength(401);
@@ -445,6 +470,8 @@ namespace Viajes.DataAccess.Context
                 entity.Property(e => e.viaj_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.viaj_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.viaj_FechaViaje).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<VW_tbViajesDetalles>(entity =>
@@ -452,6 +479,10 @@ namespace Viajes.DataAccess.Context
                 entity.HasNoKey();
 
                 entity.ToView("VW_tbViajesDetalles", "viaj");
+
+                entity.Property(e => e.cola_Identidad)
+                    .IsRequired()
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.cola_NombreCompleto)
                     .IsRequired()
@@ -475,6 +506,9 @@ namespace Viajes.DataAccess.Context
 
                 entity.ToTable("tbColaboradores", "viaj");
 
+                entity.HasIndex(e => e.cola_Identidad, "QU_viaj_tbColaboradores_cola_Identidad")
+                    .IsUnique();
+
                 entity.Property(e => e.cola_Apellidos)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -482,8 +516,6 @@ namespace Viajes.DataAccess.Context
                 entity.Property(e => e.cola_DireccionExacta)
                     .IsRequired()
                     .HasMaxLength(250);
-
-                entity.Property(e => e.cola_DistanciaSucursal).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.cola_Estado)
                     .IsRequired()
@@ -543,12 +575,45 @@ namespace Viajes.DataAccess.Context
                     .HasForeignKey(d => d.muni_Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_viaj_tbColaboradores_gral_tbMunicipios_muni_Id");
+            });
+
+            modelBuilder.Entity<tbColaboradoresPorSucursal>(entity =>
+            {
+                entity.HasKey(e => e.cosu_Id)
+                    .HasName("FK_viaj_tbColaboradoresPorSucursal_cosu_Id");
+
+                entity.ToTable("tbColaboradoresPorSucursal", "viaj");
+
+                entity.Property(e => e.cosu_DistanciaSucursal).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.cosu_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.cosu_FechaCreacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.cosu_FechaModificacion).HasColumnType("datetime");
+
+                entity.HasOne(d => d.cola)
+                    .WithMany(p => p.tbColaboradoresPorSucursal)
+                    .HasForeignKey(d => d.cola_Id)
+                    .HasConstraintName("FK_viaj_tbColaboradoresPorSucursal_viaj_tbColaboradores_cola_Id");
+
+                entity.HasOne(d => d.cosu_UsuCreacionNavigation)
+                    .WithMany(p => p.tbColaboradoresPorSucursalcosu_UsuCreacionNavigation)
+                    .HasForeignKey(d => d.cosu_UsuCreacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_viaj_tbColaboradoresPorSucursal_acce_tbUsuarios_cosu_UsuCreacion");
+
+                entity.HasOne(d => d.cosu_UsuModificacionNavigation)
+                    .WithMany(p => p.tbColaboradoresPorSucursalcosu_UsuModificacionNavigation)
+                    .HasForeignKey(d => d.cosu_UsuModificacion)
+                    .HasConstraintName("FK_viaj_tbColaboradoresPorSucursal_acce_tbUsuarios_cosu_UsuModificacion");
 
                 entity.HasOne(d => d.sucu)
-                    .WithMany(p => p.tbColaboradores)
+                    .WithMany(p => p.tbColaboradoresPorSucursal)
                     .HasForeignKey(d => d.sucu_Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_viaj_tbColaboradores_viaj_tbSucursales_sucu_Id");
+                    .HasConstraintName("FK_viaj_tbColaboradoresPorSucursal_viaj_tbSucursales_sucu_Id");
             });
 
             modelBuilder.Entity<tbDepartamentos>(entity =>
@@ -557,6 +622,9 @@ namespace Viajes.DataAccess.Context
                     .HasName("PK_gral_tbDepartamentos_depa_Id");
 
                 entity.ToTable("tbDepartamentos", "gral");
+
+                entity.HasIndex(e => e.depa_Nombre, "QU_gral_tbDepartamentos_depa_Nombre")
+                    .IsUnique();
 
                 entity.Property(e => e.depa_Id)
                     .HasMaxLength(2)
@@ -595,6 +663,9 @@ namespace Viajes.DataAccess.Context
                     .HasName("PK_gral_tbEstadosCiviles_ectv_Id");
 
                 entity.ToTable("tbEstadosCiviles", "gral");
+
+                entity.HasIndex(e => e.eciv_Descripcion, "QU_gral_tbestadosCiviles_eciv_Descripcion")
+                    .IsUnique();
 
                 entity.Property(e => e.eciv_Descripcion)
                     .HasMaxLength(100)
@@ -758,7 +829,7 @@ namespace Viajes.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E7310F0EE")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E498C05CF")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -841,6 +912,9 @@ namespace Viajes.DataAccess.Context
 
                 entity.ToTable("tbTransportistas", "viaj");
 
+                entity.HasIndex(e => e.tran_Identidad, "QU_viaj_tbTransportistas_tran_Identidad")
+                    .IsUnique();
+
                 entity.Property(e => e.muni_Id)
                     .IsRequired()
                     .HasMaxLength(4)
@@ -918,6 +992,9 @@ namespace Viajes.DataAccess.Context
 
                 entity.ToTable("tbUsuarios", "acce");
 
+                entity.HasIndex(e => e.user_NombreUsuario, "UQ_acce_tbUsuarios_user_NombreUsuario")
+                    .IsUnique();
+
                 entity.Property(e => e.user_Contrasena).IsRequired();
 
                 entity.Property(e => e.user_Estado)
@@ -967,6 +1044,14 @@ namespace Viajes.DataAccess.Context
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.viaj_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.viaj_FechaViaje).HasColumnType("datetime");
+
+                entity.HasOne(d => d.sucu)
+                    .WithMany(p => p.tbViajes)
+                    .HasForeignKey(d => d.sucu_Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_viaj_tbViajes_viaj_tbsucursales_sucu_Id");
 
                 entity.HasOne(d => d.tran)
                     .WithMany(p => p.tbViajes)

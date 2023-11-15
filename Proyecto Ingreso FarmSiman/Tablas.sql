@@ -222,8 +222,6 @@ eciv_Id					    INT				NOT NULL,
 muni_Id						CHAR(4)	    		NOT NULL,
 cola_DireccionExacta		NVARCHAR(250)	NOT NULL,
 cola_Telefono				NVARCHAR(20)	NOT NULL,
-sucu_Id						INT				NOT NULL,
-cola_DistanciaSucursal		DECIMAL(18,2)	NOT NULL,	
 cola_UsuCreacion			INT				NOT NULL,
 cola_FechaCreacion			DATETIME		NOT NULL CONSTRAINT DF_viaj_tbColaboradores_cola_FechaCreacion DEFAULT(GETDATE()),
 cola_UsuModificacion		INT,
@@ -236,12 +234,29 @@ CONSTRAINT FK_viaj_tbColaboradores_gral_tbEstadosCiviles_eciv_Id        		FOREIG
 CONSTRAINT FK_viaj_tbColaboradores_gral_tbMunicipios_muni_Id					FOREIGN KEY(muni_Id)						REFERENCES gral.tbMunicipios(muni_Id),
 CONSTRAINT FK_viaj_tbColaboradores_acce_tbUsuarios_UserCreate					FOREIGN KEY(cola_UsuCreacion)				REFERENCES acce.tbUsuarios([user_Id]),
 CONSTRAINT FK_viaj_tbColaboradores_acce_tbUsuarios_UserUpdate					FOREIGN KEY(cola_UsuModificacion)			REFERENCES acce.tbUsuarios([user_Id]),
-CONSTRAINT FK_viaj_tbColaboradores_viaj_tbSucursales_sucu_Id					FOREIGN KEY(sucu_Id)						REFERENCES viaj.tbSucursales(sucu_Id),
 CONSTRAINT QU_viaj_tbColaboradores_cola_Identidad								UNIQUE(cola_identidad)
 );
 
 
+--********TABLA COLABORADORES POR SUCURSALES****************---
+GO
+CREATE TABLE viaj.tbColaboradoresPorSucursal(
+cosu_Id							INT IDENTITY(1,1),
+sucu_Id							INT,
+cola_Id							INT,
+cosu_DistanciaSucursal			DECIMAL(18,2)		NOT NULL,	
+cosu_UsuCreacion				INT					NOT NULL,
+cosu_FechaCreacion				DATETIME			CONSTRAINT DF_viaj_tbColaboradoresPorSucursal_cosu_FechaCreacion    DEFAULT(GETDATE()),
+cosu_UsuModificacion			INT,
+cosu_FechaModificacion			DATETIME,
+cosu_Estado						BIT					CONSTRAINT DF_viaj_tbColaboradoresPorSucursal_cosu_Estado DEFAULT (1)
 
+CONSTRAINT FK_viaj_tbColaboradoresPorSucursal_cosu_Id									PRIMARY KEY(cosu_Id),
+CONSTRAINT FK_viaj_tbColaboradoresPorSucursal_viaj_tbSucursales_sucu_Id					FOREIGN KEY(sucu_Id)					REFERENCES viaj.tbSucursales(sucu_Id),
+CONSTRAINT FK_viaj_tbColaboradoresPorSucursal_viaj_tbColaboradores_cola_Id				FOREIGN KEY(cola_Id)					REFERENCES viaj.tbColaboradores(cola_Id),
+CONSTRAINT FK_viaj_tbColaboradoresPorSucursal_acce_tbUsuarios_cosu_UsuCreacion			FOREIGN KEY(cosu_UsuCreacion)			REFERENCES acce.tbUsuarios([user_Id]),
+CONSTRAINT FK_viaj_tbColaboradoresPorSucursal_acce_tbUsuarios_cosu_UsuModificacion		FOREIGN KEY(cosu_UsuModificacion)		REFERENCES acce.tbUsuarios([user_Id])
+)
 
 --********TABLA TRANSPORTISTA****************---
 GO
@@ -278,6 +293,8 @@ GO
 CREATE TABLE viaj.tbViajes(
 viaj_Id						INT IDENTITY(1,1) ,
 tran_Id						INT				NOT NULL,
+sucu_Id						INT				NOT NULL,
+viaj_FechaViaje				DATETIME		NOT NULL,
 viaj_UsuCreacion			INT				NOT NULL,
 viaj_FechaCreacion			DATETIME		NOT NULL CONSTRAINT DF_viaj_tbViajes_viaj_FechaCreacion DEFAULT(GETDATE()),
 viaj_UsuModificacion		INT,
@@ -285,7 +302,8 @@ viaj_FechaModificacion		DATETIME,
 viaj_Estado					BIT				NOT NULL CONSTRAINT DF_viaj_tbViajes_viaj_Estado DEFAULT(1),
 
 CONSTRAINT PK_viaj_tbViajes_viaj_Id 									PRIMARY KEY(viaj_Id),
-CONSTRAINT FK_viaj_tbViajes_viaj_tbTransportistas_tran_Id       			FOREIGN KEY(tran_Id)					REFERENCES viaj.tbTransportistas(tran_Id),			
+CONSTRAINT FK_viaj_tbViajes_viaj_tbTransportistas_tran_Id       		FOREIGN KEY(tran_Id)						REFERENCES viaj.tbTransportistas(tran_Id),			
+CONSTRAINT FK_viaj_tbViajes_viaj_tbsucursales_sucu_Id					FOREIGN KEY(sucu_Id)						REFERENCES viaj.tbSucursales(sucu_Id),
 CONSTRAINT FK_viaj_tbViajes_acce_tbUsuarios_UserCreate					FOREIGN KEY(viaj_UsuCreacion)				REFERENCES acce.tbUsuarios([user_Id]),
 CONSTRAINT FK_viaj_tbViajes_acce_tbUsuarios_UserUpdate					FOREIGN KEY(viaj_UsuModificacion)			REFERENCES acce.tbUsuarios([user_Id]),
 )

@@ -61,5 +61,19 @@ namespace Viajes.API.Controllers
             var list = _viajeService.BuscarColaboradores(id);
             return Ok(list);
         }
+
+        [HttpGet("Disponibles")]
+        public IActionResult Available(int Id)
+        {
+            var list = _viajeService.ListadoColaboradoresDisponibles(Id);
+            return Ok(list);
+        }
+
+        [HttpGet("DisponiblesViajar")]
+        public IActionResult AvailableTravel(int Id)
+        {
+            var list = _viajeService.ListadoColaboradoresDisponiblesViajar(Id);
+            return Ok(list);
+        }
     }
 }

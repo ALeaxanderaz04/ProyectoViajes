@@ -13,21 +13,22 @@ namespace Viajes.API.Extensions
         public MappingProfileExntensions()
         {
 
-            CreateMap<UsuarioViewModel,                 tbUsuarios>().ReverseMap();
-            CreateMap<RolViewModel,                     tbRoles>().ReverseMap();
-            CreateMap<PantallaPorRolViewModel,          tbPantallasPorRoles>().ReverseMap();
+            CreateMap<UsuarioViewModel,                             tbUsuarios>().ReverseMap();
+            CreateMap<RolViewModel,                                 tbRoles>().ReverseMap();
+            CreateMap<PantallaPorRolViewModel,                      tbPantallasPorRoles>().ReverseMap();
 
 
-            CreateMap<DepartamentoViewmodel,            tbDepartamentos>().ReverseMap();
-            CreateMap<MunicipiosViewModel,              tbMunicipios>().ReverseMap();
-            CreateMap<EstadoCivilViewModel,             tbEstadosCiviles>().ReverseMap();
+            CreateMap<DepartamentoViewmodel,                        tbDepartamentos>().ReverseMap();
+            CreateMap<MunicipiosViewModel,                          tbMunicipios>().ReverseMap();
+            CreateMap<EstadoCivilViewModel,                         tbEstadosCiviles>().ReverseMap();
             
 
-            CreateMap<ColaboradoresViewModel,           tbColaboradores>().ReverseMap();
-            CreateMap<TransportistaViewModel,           tbTransportistas>().ReverseMap();
-            CreateMap<SucursalViewModel,                tbSucursales>().ReverseMap();
-            CreateMap<ViajesViewModel,                  tbViajes>().ReverseMap();
-            CreateMap<ViajesDetallesViewModel,          tbViajesDetalles>().ReverseMap();
+            CreateMap<ColaboradoresViewModel,                       tbColaboradores>().ReverseMap();
+            CreateMap<ColaboradoresPorSucursalViewModel,            tbColaboradoresPorSucursal>().ReverseMap();
+            CreateMap<TransportistaViewModel,                       tbTransportistas>().ReverseMap();
+            CreateMap<SucursalViewModel,                            tbSucursales>().ReverseMap();
+            CreateMap<ViajesViewModel,                              tbViajes>().ReverseMap();
+            CreateMap<ViajesDetallesViewModel,                      tbViajesDetalles>().ReverseMap();
         }
     }
 }

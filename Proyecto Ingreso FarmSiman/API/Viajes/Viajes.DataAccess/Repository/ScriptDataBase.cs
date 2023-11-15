@@ -58,7 +58,6 @@ namespace Viajes.DataAccess.Repository
         public static string UDP_tbEstadosCiviles_Buscar        = "gral.UDP_tbEstadosCiviles_Find";
         #endregion
 
-
         #region Municipios
         public static string UDP_tbMunicipios_Listado       = "gral.UDP_tbMunicipios_Index";
         public static string UDP_tbMunicipios_Insertar      = "gral.UDP_tbMunicipios_Insert";
@@ -78,6 +77,9 @@ namespace Viajes.DataAccess.Repository
         public static string UDP_tbColaboradores_Actualizar = "viaj.UDP_tbColaboradores_Update";
         public static string UDP_tbColaboradores_Eliminar   = "viaj.UDP_tbColaboradores_Delete";
         public static string UDP_tbColaboradores_Buscar     = "viaj.UDP_tbColaboradores_Find";
+
+        public static string UDP_tbColaboradores_Disponibles        = "viaj.UDP_tbColaboradores_Available";
+        public static string UDP_tbColaboradores_DisponiblesViaje   = "viaj.UDP_tbColaboradores_AvailableTravel";
         #endregion
 
         #region Transportistas
@@ -94,6 +96,11 @@ namespace Viajes.DataAccess.Repository
         public static string UDP_tbSucursales_Actualizar    = "viaj.UDP_tbSucursales_Update";
         public static string UDP_tbSucursales_Eliminar      = "viaj.UDP_tbSucursales_Delete";
         public static string UDP_tbSucursales_Buscar        = "viaj.UDP_tbSucursales_Find";
+
+        public static string UDP_tbColaboradoresPorSucursal_Insertar    = "viaj.UDP_tbColaboradoresPorSucursales_Insert";
+        public static string UDP_tbColaboradoresPorSucursal_Listar      = "viaj.UDP_tbColaboradoresPorSucursales_Index";
+        public static string UDP_tbColaboradoresPorSucursal_Eliminar    = "viaj.UDP_tbColaboradoresPorSucursales_Delete";
+        public static string UDP_Kilometraje                            = "viaj.UDP_Kilometraje";
         #endregion
 
         #region Viajes - Viajes Detalles
@@ -103,11 +110,14 @@ namespace Viajes.DataAccess.Repository
         public static string UDP_tbViajes_Eliminar      = "viaj.UDP_tbViajes_Delete";
         public static string UDP_tbViajes_Buscar        = "viaj.UDP_tbViajes_Find";
 
-        public static string UDP_tbViajesDetalles_Index     = "viaj.UDP_tbViajesDetalles_Index";
+        public static string UDP_tbViajesDetalles_Listado   = "viaj.UDP_tbViajesDetalles_Index";
         public static string UDP_tbViajesDetalles_Insertar  = "viaj.UDP_tbViajesDetalles_Insert";
         public static string UDP_tbViajesDetalles_Eliminar  = "viaj.UDP_tbViajesDetalles_Delete";
+
+        public static string UDP_Pago = "viaj.UDP_PagoTransportista";
+        public static string UDP_Reporte = "viaj.UDP_Reporte";
         #endregion
-        
+
 
     }
 }

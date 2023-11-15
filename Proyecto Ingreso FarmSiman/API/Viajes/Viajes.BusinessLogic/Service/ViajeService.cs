@@ -115,6 +115,34 @@ namespace Viajes.BusinessLogic.Service
                 return null;
             }
         }
+        public ServiceResult ListadoColaboradoresDisponibles(int Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _colaboradoresRepository.Available(Id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult ListadoColaboradoresDisponiblesViajar(int Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _colaboradoresRepository.AvailableTravel(Id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
         #endregion
 
         #region Transportistas
@@ -297,8 +325,77 @@ namespace Viajes.BusinessLogic.Service
                 return null;
             }
         }
-        #endregion
 
+        public ServiceResult ListadoColaboradoresPorSucursal(int Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _sucursalRepository.ListColaboradoresPorSucursal(Id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult InsertarColaboradoresPorSucursal(tbColaboradoresPorSucursal item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalRepository.InsertColaboradoresPorSucursal(item);
+                if (map.MessageStatus == "1")
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    return result.Error(map);
+                }
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarColaboradoresPorSucursal(tbColaboradoresPorSucursal item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalRepository.DeleteColaboradoresPorSucursal(item);
+                if (map.MessageStatus == "1")
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    return result.Error(map);
+                }
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult Kilometraje(int sucu_Id, int cola_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _sucursalRepository.Kilometraje(sucu_Id, cola_Id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
 
         #region Viajes
         public ServiceResult ListadoViajes()
@@ -361,7 +458,7 @@ namespace Viajes.BusinessLogic.Service
             var result = new ServiceResult();
             try
             {
-                var map = _viajeRepository.Delete(item);
+                var map = _viajeRepository.Update(item);
                 if (map.MessageStatus == "1")
                 {
                     return result.Ok(map);
@@ -439,6 +536,34 @@ namespace Viajes.BusinessLogic.Service
                 {
                     return result.Error(map);
                 }
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult Pago(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _viajeRepository.PagoTransportista(id);
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult Reporte(int tran_Id, DateTime FechaInicio, DateTime FechaFin)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _viajeRepository.Report(tran_Id, FechaInicio, FechaFin);
+                return result.Ok(list);
             }
             catch (Exception e)
             {

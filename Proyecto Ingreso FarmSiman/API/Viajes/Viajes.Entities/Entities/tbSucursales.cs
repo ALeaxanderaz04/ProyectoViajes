@@ -10,7 +10,8 @@ namespace Viajes.Entities.Entities
     {
         public tbSucursales()
         {
-            tbColaboradores = new HashSet<tbColaboradores>();
+            tbColaboradoresPorSucursal = new HashSet<tbColaboradoresPorSucursal>();
+            tbViajes = new HashSet<tbViajes>();
         }
 
         public int sucu_Id { get; set; }
@@ -26,6 +27,7 @@ namespace Viajes.Entities.Entities
         public virtual tbMunicipios muni { get; set; }
         public virtual tbUsuarios sucu_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios sucu_UsuModificacionNavigation { get; set; }
-        public virtual ICollection<tbColaboradores> tbColaboradores { get; set; }
+        public virtual ICollection<tbColaboradoresPorSucursal> tbColaboradoresPorSucursal { get; set; }
+        public virtual ICollection<tbViajes> tbViajes { get; set; }
     }
 }
