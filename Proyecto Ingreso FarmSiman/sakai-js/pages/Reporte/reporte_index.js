@@ -9,6 +9,7 @@ import { classNames } from 'primereact/utils';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { Row } from 'jspdf-autotable';
 
 
 function PDFDocument() {
@@ -17,10 +18,6 @@ function PDFDocument() {
     const doc = new jsPDF();
     const router = useRouter();
     const toast = useRef(null); //para los toast
-
-    const [datos, setDatos] = useState([]);
-    const [detalles, setdetalles] = useState([]);
-
     const [submitted, setSubmitted] = useState(false);
 
     const [Transportista_DDL, setTransportista_DDL] = useState([]);
@@ -31,9 +28,11 @@ function PDFDocument() {
 
     const [FechaFinActivado, setFechaFinActivado] = useState(true);
 
+    const [pdfData, setPdfData] = useState('');
+
     useEffect(() => {
         var admin = 0;
-        var pant_Id = 10;
+        var pant_Id = 8;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -58,10 +57,9 @@ function PDFDocument() {
                     router.push('/');
                 }
             })
-
     }, []);
 
-    function formatearFecha(fechaOriginal) {
+    function formatearFechaSQl(fechaOriginal) {
         const fecha = new Date(fechaOriginal);
         const dia = fecha.getDate();
         const mes = fecha.getMonth() + 1;
@@ -70,85 +68,130 @@ function PDFDocument() {
         return `${mes}/${dia}/${año}`;
     }
 
+    function formatearFecha(fechaOriginal) {
+        const fecha = new Date(fechaOriginal);
+        const dia = fecha.getDate();
+        const mes = fecha.getMonth() + 1;
+        const año = fecha.getFullYear();
+
+        return `${dia}/${mes}/${año}`;
+    }
+
+    //Enviar parametros
     const EnviarDatos = () => {
         if (!FechaInicio || !Transportista || !FechaFin) {
             setSubmitted(true);
-        }
-        else {
-            axios.get(Global.url + `Viajes/Reporte?tran_Id=${Transportista.code}&FechaInicio=${formatearFecha(FechaInicio)}&FechaFin=${formatearFecha(FechaFin)}`)
+        } else {
+            axios
+                .get(
+                    Global.url +
+                    `Viajes/Reporte?tran_Id=${Transportista.code}&FechaInicio=${formatearFechaSQl(
+                        FechaInicio
+                    )}&FechaFin=${formatearFechaSQl(FechaFin)}`
+                )
                 .then((r) => {
-                    console.log(r)
                     if (r.data.data.length > 0) {
-                        toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Correctos', life: 2000 });
+                        //setDatos(r.data.data);
+                        // Llamar a generarPDF después de actualizar los datos
+                        generarPDF(r.data.data);
+                    }
+                    else {
+                        toast.current.show({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: 'No hay Viajes en el Rango Seleccionado',
+                            life: 2000,
+                        });
                     }
                 })
                 .catch((e) => {
-                    console.log(e)
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                })
+                    console.log(e);
+                    toast.current.show({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!',
+                        life: 2000,
+                    });
+                });
         }
-    }
+    };
 
-    const pdfUrl = doc.output('dataurl');
+    const generarPDF = (datos) => {
+        const newDoc = new jsPDF();
+        let y = 10;
+        let KilometrajeTotal = 0;
+        let TotalPago = 0;
 
-    // const header = function (data) {
-    //     doc.setFontSize(18);
-    //     const pageWidth = doc.internal.pageSize.width;
-    //     const title = "Reporte de Servicios";
-
-    //     // Calculate the width of the title
-    //     const titleWidth = doc.getTextWidth(title);
-
-    //     // Calculate the x-coordinate to center the title
-    //     const x = (pageWidth - titleWidth) / 2;
-
-    //     doc.setTextColor(40);
-
-    //     // Agregar imagen
-    //     // doc.addImage('https://i.ibb.co/gt5zMF1/FDCNegro.jpg', 'JPG', pageWidth - 40, 5, 24, 24);
-
-    //     // Agregar texto centrado
-    //     doc.text(title, x, 22);
-    //   };
+        datos.forEach((viaje, index) => {
+            let counter = 1; // Inicializa el contador
+            KilometrajeTotal += viaje.Kilometraje;
+            TotalPago += viaje.Pago;
 
 
-    // const footer = function (data) {
-    //     const pageCount = doc.internal.getNumberOfPages();
-    //     const currentPage = data.pageNumber;
-    //     const pageWidth = doc.internal.pageSize.width;
-    //     const date = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    //     const text = `Documento informativo de servicos Moonson ${date}`;
-    //     const textWidth = doc.getTextWidth(text);
-    //     const textX = (pageWidth * 1.3) - textWidth;
-    //     doc.setFontSize(10);
-    //     doc.text(`Página ${currentPage}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
-    //     doc.text(text, textX, doc.internal.pageSize.height - 10);
-    // };
+            // Encabezado
+            doc.text(`Datos del Viaje ${viaje.viaj_Id}`, 20, y + 5);
 
-    //  doc.autoTableAddPage({
-    //    addPageContent: header,
-    //  });
+            // Detalles del Viaje
+            const detallesViaje = [
+                ['Transportista', viaje.tran_NombreCompleto],
+                ['Sucursal', viaje.sucu_Nombre],
+                ['Fecha de Viaje', formatearFecha(viaje.viaj_FechaViaje)],
+                ['Pago del Viaje', `${viaje.Pago} .LPS`],
+                ['Kilometraje del Viaje', `${viaje.Kilometraje} .KM`],
+            ];
 
-    // añadimos contenido al PDF utilizando jspdf-autotable
-    // doc.autoTable({
-    //     head: [['Id', 'Servicio', 'Precio por Serivio']],
-    //     body: data.map((row) => [
-    //         row.serv_Id,
-    //         row.serv_Nombre,
-    //         row.serv_Precio + ' .Lps',
-    //     ]),
-    //     didDrawPage: function (data) {
-    //         header(data);
-    //         // agregamos la paginación
-    //         footer(data);
-    //     },
-    //     margin: { top: 30, bottom: 20 }
-    // });
+            doc.autoTable({
+                startY: y + 10,
+                head: [['Campo', 'Valor']],
+                body: detallesViaje,
+            });
 
-    // obtenemos una URL del PDF para mostrarlo en un iframe
-    //const pdfUrl = doc.output('dataurl');
+            // Detalles
+            doc.text('Colaboradores que Viajaron', 20, y + 70);
 
-    // mostramos el documento PDF en un iframe
+            const detallesTabla = JSON.parse(viaje.Detalles).map((detalle) => [
+                counter++,
+                detalle.cola_NombreCompleto,
+                detalle.cola_Identidad,
+            ]);
+
+            doc.autoTable({
+                startY: y + 75,
+                head: [['#', 'Nombre del Colaborador', 'Identidad']],
+                body: detallesTabla,
+            });
+
+            // Añadir salto de página para el próximo viaje
+            if (index !== datos.length - 1) {
+                doc.addPage();
+            }
+        });
+
+        doc.addPage();
+
+        // Encabezado
+        doc.text(`Total a Pagar`, 20, y + 5);
+
+        //Costos Totales
+        const Pago = [
+            ['Transportista', Transportista.name],
+            ['Fecha de Inicio', formatearFecha(FechaInicio)],
+            ['Fecha Final', formatearFecha(FechaFin)],
+            ['Kilometraje Total Alcanzado', `${KilometrajeTotal} .KM`],
+            ['Pago Total al Transportista', `${TotalPago} .LPS`],
+        ];
+
+        doc.autoTable({
+            startY: y + 10,
+            head: [['Campo', 'Valor']],
+            body: Pago,
+        });
+
+        // Opcional: si deseas obtener los datos del PDF en formato base64
+        const dataUrl = doc.output('dataurl');
+        setPdfData(dataUrl);
+    };
+
     return (
         <div className="grid">
             <Toast ref={toast} />
@@ -207,10 +250,11 @@ function PDFDocument() {
 
                         <div className='col-12'>
                             <div style={{ height: '100vh' }}>
-                                <iframe src={pdfUrl} style={{ width: '100%', height: '100%' }} />
+                                {/* Mostrar el PDF en el iframe */}
+
+                                <iframe src={pdfData} style={{ width: '100%', height: '100%' }} />
                             </div>
                         </div>
-
 
                     </div>
 

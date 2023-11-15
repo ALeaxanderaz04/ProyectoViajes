@@ -47,7 +47,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 8;
+        var pant_Id = 6;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -163,19 +163,22 @@ const App = () => {
     };
 
     //mandar datos del eliminar a la api
-    const EliminarCategorias = (e) => {
+    const EliminarSucursales = (e) => {
 
         let payloadDelete = {
             sucu_Id: SucursalId,
         }
         axios.post(Global.url + 'Sucursal/Eliminar', payloadDelete)
             .then((r) => {
-                if(r.data.data.messageStatus == '1'){
-                    hideDeleteModal();
-                    setSucursalId("");
-                    setLoading(true);
+                if (r.data.data.messageStatus == '1') {
                     toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
                 }
+                else if (r.data.data.messageStatus == "0") {
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El registro está en uso en otra tabla', life: 2000 });
+                }
+                hideDeleteModal();
+                setSucursalId("");
+                setLoading(true);
             })
             .catch((e) => {
                 toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
@@ -250,7 +253,7 @@ const App = () => {
             }
             axios.post(Global.url + 'Sucursal/Editar', payloadEdit)
                 .then((r) => {
-                    if(r.data.data.messageStatus == '1'){
+                    if (r.data.data.messageStatus == '1') {
                         hideEditModal();
                         setLoading(true);
                         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
@@ -447,7 +450,7 @@ const App = () => {
                     <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Sucursales" onHide={hideDeleteModal} modal footer={
                         <>
                             <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-                            <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarCategorias} />
+                            <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarSucursales} />
                         </>
                     }>
                         <div className="flex align-items-center justify-content-center">

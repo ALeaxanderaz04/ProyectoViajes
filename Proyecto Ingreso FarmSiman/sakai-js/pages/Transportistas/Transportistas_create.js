@@ -44,7 +44,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 7;
+        var pant_Id = 5;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {

@@ -28,25 +28,47 @@ const RolesUpdate = () => {
 
     useEffect(() => {
 
-        axios.get(Global.url + 'Rol/Buscar?id=' + RolId)
+        var admin = 0;
+        var pant_Id = 2;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Rol/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
             .then((r) => {
-                setRol(r.data.role_Nombre);
+
+                if (r.data.data.messageStatus == '1') {
+
+                    axios.get(Global.url + 'Rol/Buscar?id=' + RolId)
+                        .then((r) => {
+                            setRol(r.data.role_Nombre);
+                        })
+                        .catch((e) => {
+                            localStorage.setItem('RolInsert', '400');
+                            router.push('./roles_index')
+                        })
+
+                    axios.get(Global.url + 'PantallaPorRol/BuscarPantallasdisponibles?id=' + RolId)
+                        .then(response => response.data)
+                        .then((data) => setPantallas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'PantallaPorRol/Buscar?id=' + RolId)
+                        .then(response => response.data)
+                        .then((data) => setPantallasSeleccionadas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
+                        .catch(error => console.error(error))
+
+                }
+                else {
+                    router.push('/');
+                }
             })
-            .catch((e) => {
-                localStorage.setItem('RolInsert', '400');
-                router.push('./roles_index')
-            })
-
-        axios.get(Global.url + 'PantallaPorRol/BuscarPantallasdisponibles?id=' + RolId)
-            .then(response => response.data)
-            .then((data) => setPantallas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
-            .catch(error => console.error(error))
-
-        axios.get(Global.url + 'PantallaPorRol/Buscar?id=' + RolId)
-            .then(response => response.data)
-            .then((data) => setPantallasSeleccionadas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
-            .catch(error => console.error(error))
-
     }, []);
 
 
@@ -81,9 +103,9 @@ const RolesUpdate = () => {
                         EliminarRolesPantallas();
                     }
                 })
-                .catch((e) =>{
+                .catch((e) => {
                     toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                  })
+                })
         }
     }
 
@@ -119,9 +141,9 @@ const RolesUpdate = () => {
                 .then((r) => {
                     console.log(r.data.data.codeStatus)
                 })
-                .catch((e) =>{
+                .catch((e) => {
                     toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                  })
+                })
         });
 
         localStorage.setItem('RolInsert', '2');

@@ -67,7 +67,7 @@ const App = () => {
               .catch(error => console.error(error))
           }
         }
-        else{
+        else {
           router.push('/');
         }
       })
@@ -89,17 +89,30 @@ const App = () => {
 
   //mandar datos del eliminar a la api
   const EliminarCategorias = (e) => {
-
-    let payload = {
-      role_Id: parseInt(RolId),
+    if (RolId == parseInt(localStorage.getItem('role_Id'))) {
+      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se puede eliminar el Rol que tiene iniciada la sesión', life: 2000 });
+      setLoading(true);
+      hideDeleteModal();
+      setRolId("");
     }
-    axios.post(Global.url + 'Rol/Eliminar', payload)
-      .then((r) => {
-        setLoading(true);
-        hideDeleteModal();
-        setRolId("");
-        toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-      });
+    else {
+      let payload = {
+        role_Id: parseInt(RolId),
+      }
+      axios.post(Global.url + 'Rol/Eliminar', payload)
+        .then((r) => {
+          if (r.data.data.codeStatus == "1") {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
+          }
+          else if (r.data.data.codeStatus == "3") {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El registro está en uso en otra tabla', life: 2000 });
+          }
+          setLoading(true);
+          hideDeleteModal();
+          setRolId("");
+        });
+    }
+
   }
 
   const header = (

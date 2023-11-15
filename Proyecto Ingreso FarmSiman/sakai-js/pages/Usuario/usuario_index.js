@@ -32,9 +32,6 @@ const Usuarios = () => {
     const [RolesDDL, setRolesDDL] = useState([]); //ddl roles
     const [Rol, setRol] = useState(''); //almacena el valor seleccionado del ddl 
 
-   
-
-
     const [loading, setLoading] = useState(true);
     useEffect(() => {
 
@@ -65,7 +62,7 @@ const Usuarios = () => {
                             });
                     }
                 }
-                else{
+                else {
                     router.push('/');
                 }
             })
@@ -96,7 +93,7 @@ const Usuarios = () => {
     //mandar datos de ingresar a la api
     const IngresarUsuario = (e) => {
 
-        if (!NombreUsuario.trim() || !Contrasenia.trim() || !Rol ) {
+        if (!NombreUsuario.trim() || !Contrasenia.trim() || !Rol) {
 
             setSubmitted(true);
         }
@@ -110,12 +107,12 @@ const Usuarios = () => {
             }
             axios.post(Global.url + 'Usuario/Insertar', payload)
                 .then((r) => {
-                    if(r.data.data.messageStatus == '1'){
+                    if (r.data.data.messageStatus == '1') {
                         hideDialog();
                         setLoading(true);
                         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
                     }
-                    else if(r.data.data.messageStatus.includes("UNIQUE KEY")){
+                    else if (r.data.data.messageStatus.includes("UNIQUE KEY")) {
                         hideDialog();
                         setLoading(true);
                         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });
@@ -144,27 +141,33 @@ const Usuarios = () => {
     //mandar datos del eliminar a la api
     const EliminarUsuarios = (e) => {
 
-        let payloadDelete = {
-            user_Id: parseInt(UsuarioId),
+        if (UsuarioId == parseInt(localStorage.getItem('usuID'))) {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se puede eliminar al usuario que tiene iniciada la sesión', life: 2000 });
+            hideDeleteModal();
+            setUsuarioId("");
+            setLoading(true);
         }
-        axios.post(Global.url + 'Usuario/Eliminar', payloadDelete)
-            .then((r) => {
-                if(r.data.data.messageStatus == '1'){
+        else {
+
+            let payloadDelete = {
+                user_Id: parseInt(UsuarioId),
+            }
+            axios.post(Global.url + 'Usuario/Eliminar', payloadDelete)
+                .then((r) => {
+                    if (r.data.data.messageStatus == '1') {
+                        toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
+                    }
+                    else if (r.data.data.messageStatus == "0") {
+                        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El registro está en uso en otra tabla', life: 2000 });
+                    }
                     hideDeleteModal();
                     setUsuarioId("");
                     setLoading(true);
-                    toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
-                }
-                else if(r.data.data.messageStatus.includes("UNIQUE KEY")){
-                    hideDeleteModal();
-                    setUsuarioId("");
-                    setLoading(true);
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });
-                }
-            })
-            .catch((e) => {
-                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-            })
+                })
+                .catch((e) => {
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                })
+        }
     }
 
     /* MODAL EDITAR */
@@ -172,7 +175,7 @@ const Usuarios = () => {
     const LlamarDatosEdit = (id) => {
         axios.get(Global.url + 'Usuario/Buscar?id=' + id)
             .then((r) => {
-                return r.data; 
+                return r.data;
             })
             .then((data) => {
 
@@ -180,7 +183,7 @@ const Usuarios = () => {
 
                 var codeRol = { code: data.role_Id, name: data.role_Nombre }
                 setRol(codeRol);
-                
+
                 setUsuarioId(id);
                 setEditModal(true)
 
@@ -219,12 +222,12 @@ const Usuarios = () => {
             }
             axios.post(Global.url + 'Usuario/Editar', payloadEdit)
                 .then((r) => {
-                    if(r.data.data.messageStatus == '1'){
+                    if (r.data.data.messageStatus == '1') {
                         hideEditModal();
                         setLoading(true);
                         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
                     }
-                    else if(r.data.data.messageStatus.includes("UNIQUE KEY")){
+                    else if (r.data.data.messageStatus.includes("UNIQUE KEY")) {
                         hideEditModal();
                         setLoading(true);
                         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });

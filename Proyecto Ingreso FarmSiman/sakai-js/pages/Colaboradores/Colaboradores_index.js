@@ -22,7 +22,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 6;
+        var pant_Id = 4;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -110,8 +110,8 @@ const App = () => {
                 if (r.data.data.messageStatus == '1') {
                     toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
                 }
-                else if (r.data.data.messageStatus.includes("DELETE statement conflicted")) {
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El Registro Esta en Uso en Otra Tabla', life: 2000 });
+                else if (r.data.data.messageStatus == "0") {
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El registro está en uso en otra tabla', life: 2000 });
                 }
                 setLoading(true);
                 hideDeleteModal();

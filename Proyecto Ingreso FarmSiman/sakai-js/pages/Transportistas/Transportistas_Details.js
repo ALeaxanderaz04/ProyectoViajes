@@ -17,7 +17,7 @@ const App = () => {
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 7;
+        var pant_Id = 5;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -51,12 +51,16 @@ const App = () => {
     }, []);
 
     function formatearFecha(fechaOriginal) {
-        const fecha = new Date(fechaOriginal);
-        const dia = fecha.getDate();
-        const mes = fecha.getMonth() + 1;
-        const año = fecha.getFullYear();
+        if (fechaOriginal != null) {
+            const fecha = new Date(fechaOriginal);
+            const dia = fecha.getDate();
+            const mes = fecha.getMonth() + 1;
+            const año = fecha.getFullYear();
 
-        return `${dia}/${mes}/${año}`;
+            return `${dia}/${mes}/${año}`;
+        }
+        else
+            return "";
     }
 
     return (
@@ -181,12 +185,12 @@ const App = () => {
                             </div>
 
                             <div className='col-12'>
-                            <div className="grid p-fluid">
-                                <div className='col-2'>
-                                    <Button label="Regresar " severity="info" onClick={() => router.push('./Transportistas_index')} />
+                                <div className="grid p-fluid">
+                                    <div className='col-2'>
+                                        <Button label="Regresar " severity="info" onClick={() => router.push('./Transportistas_index')} />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
 

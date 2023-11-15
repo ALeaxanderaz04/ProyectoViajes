@@ -332,9 +332,7 @@ GO
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_reactId, pant_UsuCreacion, pant_UsuModificacion, pant_FechaModificacion)
 VALUES	('Usuario',			'/Usuario/usuario_index',				'Acceso',		'pi pi-fw pi-user',			'UsuarioItem',		1,NULL,NULL),
 		('Roles',			'/Roles/roles_index',					'Acceso',		'pi pi-fw pi-sign-in',		'RolesItem',		1,NULL,NULL),
-		('Municipios',		'/Municipios/municipios_index',			'General',		'pi pi-fw pi-map',			'MunicipioItem',	1,NULL,NULL),
-		('Estado Civil',	'/EstadoCivil/estado_index',			'General',		'pi pi-fw pi pi-heart',		'EstadoCivilItem',	1,NULL,NULL),
-		('Departamentos',	'/Departamentos/departamento_index',	'General',		'pi pi-fw pi-map',			'DepartamentoItem',	1,NULL,NULL);
+		('Estado Civil',	'/EstadoCivil/estado_index',			'General',		'pi pi-fw pi pi-heart',		'EstadoCivilItem',	1,NULL,NULL)
 
 		
 GO

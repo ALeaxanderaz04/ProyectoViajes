@@ -14,11 +14,11 @@ const App = () => {
     const id = router.query.id; // optiene el id del resgitro a editar
 
     const [datos, setDatos] = useState([]);
-    
+
     useEffect(() => {
 
         var admin = 0;
-        var pant_Id = 6;
+        var pant_Id = 4;
         var role_Id = 0;
 
         if (localStorage.getItem('role_Id') != null) {
@@ -36,6 +36,7 @@ const App = () => {
 
                     axios.get(Global.url + 'Colaborador/Buscar?id=' + id)
                         .then((r) => {
+                            console.log(r.data)
                             setDatos(r.data)
                         })
                         .catch((e) => {
@@ -52,12 +53,16 @@ const App = () => {
     }, []);
 
     function formatearFecha(fechaOriginal) {
-        const fecha = new Date(fechaOriginal);
-        const dia = fecha.getDate();
-        const mes = fecha.getMonth() + 1;
-        const año = fecha.getFullYear();
 
-        return `${dia}/${mes}/${año}`;
+        if (fechaOriginal != null) {
+            const fecha = new Date(fechaOriginal);
+            const dia = fecha.getDate();
+            const mes = fecha.getMonth() + 1;
+            const año = fecha.getFullYear();
+
+            return `${dia}/${mes}/${año}`;
+        }
+        return ``;
     }
 
     return (
@@ -151,7 +156,7 @@ const App = () => {
                     </div>
 
                     <div className="col-12">
-                        
+
                         <div className="grid p-fluid">
                             <div className='col-12 mt-2'>
                                 <DataTable
@@ -175,12 +180,12 @@ const App = () => {
                             </div>
 
                             <div className='col-12'>
-                            <div className="grid p-fluid">
-                                <div className='col-2'>
-                                    <Button label="Regresar " severity="info" onClick={() => router.push('./Colaboradores_index')} />
+                                <div className="grid p-fluid">
+                                    <div className='col-2'>
+                                        <Button label="Regresar " severity="info" onClick={() => router.push('./Colaboradores_index')} />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
 

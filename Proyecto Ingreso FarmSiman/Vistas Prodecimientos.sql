@@ -285,11 +285,19 @@ CREATE OR ALTER PROCEDURE gral.UDP_tbEstadosCiviles_Delete
 AS
 BEGIN
 	BEGIN TRY
-		UPDATE	gral.tbEstadosCiviles
-		SET		eciv_Estado = 0
-		WHERE	eciv_Id = @eciv_Id
 
-		SELECT 1 
+		IF EXISTS (SELECT eciv_Id FROM viaj.tbTransportistas WHERE eciv_Id = @eciv_Id)
+			BEGIN SELECT 0 END
+		ELSE IF EXISTS (SELECT eciv_Id FROM viaj.tbColaboradores WHERE eciv_Id = @eciv_Id)
+			BEGIN SELECT 0 END
+		ELSE 
+			BEGIN
+				UPDATE	gral.tbEstadosCiviles
+				SET		eciv_Estado = 0
+				WHERE	eciv_Id = @eciv_Id
+
+				SELECT 1 
+			END
 	END TRY
 	BEGIN CATCH
 		SELECT 'Error ' + ERROR_MESSAGE()  
@@ -584,14 +592,14 @@ END
 --************** DELETE *****************--
 GO
 
-CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Delete
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Delete 
   @role_Id INT
 AS
 BEGIN
 	BEGIN TRY
 		  IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE (role_Id = @role_Id))
 			BEGIN
-				SELECT 3
+				SELECT 3 codeStatus
 			END
 		ELSE
 			BEGIN 
@@ -935,11 +943,18 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		UPDATE [viaj].[tbColaboradores]
-		SET cola_Estado = 0
-		WHERE cola_Id = @cola_Id
+		IF EXISTS (SELECT cola_Id FROM viaj.tbColaboradoresPorSucursal WHERE cola_Id = @cola_Id)
+			BEGIN SELECT 0 END
+		ELSE IF EXISTS (SELECT cola_Id FROM viaj.tbViajesDetalles WHERE cola_Id = @cola_Id)
+			BEGIN SELECT 0 END
+		ELSE
+			BEGIN
+				UPDATE [viaj].[tbColaboradores]
+				SET cola_Estado = 0
+				WHERE cola_Id = @cola_Id
 		
-		SELECT 1 
+				SELECT 1 
+			END
 	
 	END TRY
 	BEGIN CATCH
@@ -1092,11 +1107,18 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		UPDATE viaj.tbTransportistas
-		SET tran_Estado = 0
-		WHERE tran_Id = @tran_Id
+		IF EXISTS (SELECT * FROM viaj.tbViajes WHERE tran_Id = @tran_Id)
+			BEGIN SELECT 0 END
+		ELSE 
+		BEGIN
+			UPDATE viaj.tbTransportistas
+			SET tran_Estado = 0
+			WHERE tran_Id = @tran_Id 
 
-		SELECT 1 
+			SELECT 1 
+		END
+
+		
 	END TRY
 	BEGIN CATCH 
 		SELECT 'Error ' + ERROR_MESSAGE()  
@@ -1190,14 +1212,20 @@ CREATE OR ALTER PROCEDURE viaj.UDP_tbSucursales_Delete
 AS
 BEGIN
  BEGIN TRY
+	
+	IF EXISTS (SELECT sucu_Id FROM viaj.VW_tbViajes WHERE sucu_Id = @sucu_Id)
+		BEGIN SELECT 0 END
+	ELSE 
+	BEGIN
+		DELETE  FROM viaj.tbColaboradoresPorSucursal
+		WHERE sucu_Id = @sucu_Id
 
-	DELETE  FROM viaj.tbColaboradoresPorSucursal
-	WHERE sucu_Id = @sucu_Id
+		DELETE  FROM viaj.tbSucursales
+		WHERE sucu_Id = @sucu_Id
+		SELECT 1 
+	END
 
-	DELETE  FROM viaj.tbSucursales
-	WHERE sucu_Id = @sucu_Id
-
-	SELECT 1 
+	
  END TRY
  BEGIN CATCH
 	SELECT 'Error ' + ERROR_MESSAGE()  

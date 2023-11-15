@@ -35,7 +35,7 @@ const EstadosCivilesIn = () => {
   useEffect(() => {
 
     var admin = 0;
-    var pant_Id = 7;
+    var pant_Id = 3;
     var role_Id = 0;
 
     if (localStorage.getItem('role_Id') != null) {
@@ -162,10 +162,13 @@ const EstadosCivilesIn = () => {
     axios.post(Global.url + 'EstadoCivil/Eliminar', payload)
       .then((r) => {
         if (r.data.data.messageStatus == '1') {
-          hideDeleteModal();
-          setLoading(true);
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 2000 });
         }
+        else if (r.data.data.messageStatus == "0") {
+          toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'El registro está en uso en otra tabla', life: 2000 });
+        }
+        hideDeleteModal();
+        setLoading(true);
       })
       .catch((e) => {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
