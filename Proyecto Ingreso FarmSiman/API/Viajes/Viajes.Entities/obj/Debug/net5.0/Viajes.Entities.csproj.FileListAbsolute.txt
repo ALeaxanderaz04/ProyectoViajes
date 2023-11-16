@@ -10,3 +10,15 @@ C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entit
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.dll
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\ref\Viajes.Entities.dll
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\bin\Debug\net5.0\Viajes.Entities.deps.json
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\bin\Debug\net5.0\Viajes.Entities.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\bin\Debug\net5.0\ref\Viajes.Entities.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\bin\Debug\net5.0\Viajes.Entities.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.csproj.AssemblyReference.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.AssemblyInfoInputs.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.AssemblyInfo.cs
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.csproj.CoreCompileInputs.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\ref\Viajes.Entities.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Entities\obj\Debug\net5.0\Viajes.Entities.pdb

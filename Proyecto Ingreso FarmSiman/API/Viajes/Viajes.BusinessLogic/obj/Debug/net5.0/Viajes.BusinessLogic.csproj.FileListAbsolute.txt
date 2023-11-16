@@ -15,3 +15,20 @@ C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.Busin
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.dll
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\ref\Viajes.BusinessLogic.dll
 C:\Users\ALEXANDER PC\Desktop\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.BusinessLogic.deps.json
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.BusinessLogic.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\ref\Viajes.BusinessLogic.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.BusinessLogic.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.DataAccess.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.Entities.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.DataAccess.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\bin\Debug\net5.0\Viajes.Entities.pdb
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.csproj.AssemblyReference.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.AssemblyInfoInputs.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.AssemblyInfo.cs
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.csproj.CopyComplete
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\ref\Viajes.BusinessLogic.dll
+C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.BusinessLogic\obj\Debug\net5.0\Viajes.BusinessLogic.pdb

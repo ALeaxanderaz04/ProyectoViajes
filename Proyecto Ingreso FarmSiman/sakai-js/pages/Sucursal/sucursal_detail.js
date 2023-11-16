@@ -67,12 +67,18 @@ const App = () => {
     }, []);
 
     function formatearFecha(fechaOriginal) {
-        const fecha = new Date(fechaOriginal);
-        const dia = fecha.getDate();
-        const mes = fecha.getMonth() + 1;
-        const año = fecha.getFullYear();
 
-        return `${dia}/${mes}/${año}`;
+        if (fechaOriginal != null) {
+
+            const fecha = new Date(fechaOriginal);
+            const dia = fecha.getDate();
+            const mes = fecha.getMonth() + 1;
+            const año = fecha.getFullYear();
+
+            return `${dia}/${mes}/${año}`;
+        }
+        else
+            return ""
     }
 
     return (
@@ -182,7 +188,7 @@ const App = () => {
                                             post.cosu_DistanciaSucursal
                                         )}
                                     >
-                                        <Column field="cola_NombreCompleto" header="Nombre" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}  />
+                                        <Column field="cola_NombreCompleto" header="Nombre" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
                                         <Column field="cola_identidad" header="Identidad" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
                                         <Column field="cosu_DistanciaSucursal" header="Distancia (KM)" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
 

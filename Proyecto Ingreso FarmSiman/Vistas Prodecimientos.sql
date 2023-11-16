@@ -1368,7 +1368,7 @@ CREATE OR ALTER PROCEDURE viaj.UDP_tbViajes_Find
 AS
 BEGIN
 	SELECT * FROM  viaj.VW_tbViajes
-	WHERE viaj_Id = viaj_Id;
+	WHERE viaj_Id = @viaj_Id;
 END
 
 

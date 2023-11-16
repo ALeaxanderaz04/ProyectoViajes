@@ -192,7 +192,7 @@ const App = () => {
                     <div className='col-12'>
                         <div className="grid p-fluid">
                             <div className='col-2'>
-                                <Button label="Regresar " severity="info" onClick={() => router.push('./sucursal_index')} />
+                                <Button label="Regresar " severity="info" onClick={() => router.push('./Viajes_index')} />
                             </div>
                         </div>
                     </div>
