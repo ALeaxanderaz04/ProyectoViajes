@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ALEXANDER\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj": {}
+    "C:\\Users\\ALEXANDER PC\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ALEXANDER\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj": {
+    "C:\\Users\\ALEXANDER PC\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\ALEXANDER PC\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj",
         "projectName": "Viajes.Entities",
-        "projectPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj",
-        "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\obj\\",
+        "projectPath": "C:\\Users\\ALEXANDER PC\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\Viajes.Entities.csproj",
+        "packagesPath": "C:\\Users\\ALEXANDER PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ALEXANDER PC\\Documents\\GitHub\\ProyectoViajes\\Proyecto Ingreso FarmSiman\\API\\Viajes\\Viajes.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ALEXANDER PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

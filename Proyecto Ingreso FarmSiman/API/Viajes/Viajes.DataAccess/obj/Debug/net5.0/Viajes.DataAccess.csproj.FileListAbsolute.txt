@@ -28,3 +28,18 @@ C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\AP
 C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.dll
 C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\ref\Viajes.DataAccess.dll
 C:\Users\ALEXANDER\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.pdb
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\Viajes.DataAccess.deps.json
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\Viajes.DataAccess.dll
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\ref\Viajes.DataAccess.dll
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\Viajes.DataAccess.pdb
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\Viajes.Entities.dll
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\bin\Debug\net5.0\Viajes.Entities.pdb
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.csproj.AssemblyReference.cache
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.AssemblyInfoInputs.cache
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.AssemblyInfo.cs
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.csproj.CopyComplete
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.dll
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\ref\Viajes.DataAccess.dll
+C:\Users\ALEXANDER PC\Documents\GitHub\ProyectoViajes\Proyecto Ingreso FarmSiman\API\Viajes\Viajes.DataAccess\obj\Debug\net5.0\Viajes.DataAccess.pdb
